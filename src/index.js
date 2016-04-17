@@ -1,5 +1,6 @@
 // MODULES //
 
+import Radium from 'radium';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import katex from 'katex';
@@ -25,13 +26,15 @@ class TeX extends Component {
 				displayMode: this.props.displayMode
 			})
 		};
+		let inlineStyle = this.props.displayMode ? {} : { whiteSpace: 'nowrap', display: 'inline-block' };
 		return (
-			<div className="tex" style={this.props.style} onClick={this.props.onClick}>
-			{ this.props.displayMode ? <span style={ {float: "right", marginTop: 5, marginRight: 5 } }>[{this.props.id}]</span> : <span /> }
+			<div className="tex" style={[ this.props.style, inlineStyle ]} onClick={this.props.onClick}>
+			{ this.props.displayMode ? <div style={ {float: "right", marginTop: 5, marginRight: 5 } }>[{this.props.id}]</div> : <span /> }
 			<span
 				ref="katex"
 				dangerouslySetInnerHTML={math}
 				aria-hidden={!!math}
+				style={ this.props.displayMode ? {} : { whiteSpace: 'nowrap' } }
 			/>
 			</div>
 		);
@@ -62,4 +65,4 @@ TeX.defaultProps = {
 
 // EXPORTS //
 
-export default TeX;
+export default Radium( TeX );
